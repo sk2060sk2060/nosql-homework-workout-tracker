@@ -11,10 +11,11 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://user:password1@ds225624.mlab.com:25624/heroku_147gn067", 
-  { useNewUrlParser: true }
-);
+// If deployed, use the deployed database. Otherwise use the local workout database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workout";
 
+// Connect to the Mongo DB
+mongoose.connect(MONGODB_URI)
 
 require("./routes/html-routes.js")(app);
 require("./routes/api-routes.js")(app);
